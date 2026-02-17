@@ -1,1 +1,1 @@
-Sitemap: https://andrewheiss.github.io/quarto-websites_2025-10/sitemap.xml
+Sitemap: https://github.com/andrewheiss/2026-02-17_northwestern-targets/sitemap.xml
