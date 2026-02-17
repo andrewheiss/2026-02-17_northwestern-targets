@@ -18,14 +18,14 @@
     "href": "index.html#materials",
     "title": "Building reproducible workflows with {targets}",
     "section": "Materials",
-    "text": "Materials\nAll the materials we’ll use today are in a self-contained RStudio project that you can download to your computer. It is a .zip file, so make sure you extract/unzip it after downloading it (especially if you’re using Windows!)\n\n  RStudio project\n\nAlternatively, you can open this project in your browser without needing to install or download anything on your computer. HOWEVER, the Posit server isn’t powerful enough to run the Bayesian models—it will crash unless you increase the amount of RAM or CPUs on the server. Open this Posit.cloud project (you’ll need to create a free account really quick):\n\n  Posit.cloud project"
+    "text": "Materials\nAll the materials we’ll use today are three self-contained RStudio projects:\n\n targets-penguins.zip    08-comparisons-original.zip    08-comparisons-targets.zip"
   },
   {
     "objectID": "index.html#packages",
     "href": "index.html#packages",
     "title": "Building reproducible workflows with {targets}",
     "section": "Packages",
-    "text": "Packages\nYou’ll need all these packages on your computer if you’re following along:\ninstall.packages(\n  c(\"tidyverse\", \"marginaleffects\", \"brms\", \"tidybayes\", \"ggdist\", \"tinytable\", \n    \"patchwork\", \"scales\", \"ggridges\", \"ragg\", \"knitr\", \"rmarkdown\", \"glue\", \n    \"here\", \"extraDistr\", \"betareg\", \"parameters\", \"broom\", \"distributional\", \n    \"palmerpenguins\", \"bayesrules\", \"countrycode\", \"WDI\"\n  )\n)"
+    "text": "Packages\nYou’ll need all these packages on your computer if you’re following along:\ninstall.packages(\n  c(\"tidyverse\", \"ggrepel\", \"sf\", \"tigris\", \"dataverse\", \"jsonlite\", \n    \"targets\", \"tarchetypes\", \"tidybayes\", \"brms\",\n    \"marginaleffects\", \"modelsummary\", \"parameters\", \"patchwork\"\n  )\n)"
   },
   {
     "objectID": "index.html#slides",
