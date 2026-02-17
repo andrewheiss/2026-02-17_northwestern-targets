@@ -1,0 +1,95 @@
+---
+title: "Building reproducible workflows with {targets}"
+author:
+- name: Andrew Heiss
+  affiliations: 
+    - id: gsu
+      name: Georgia State University
+      department: Andrew Young School of Policy Studies, Department of Public Management and Policy
+      address: "55 Park Place NE, #464"
+      city: Atlanta
+      region: GA
+      country: USA
+      postal-code: 30303
+  orcid: 0000-0002-3948-3914
+  url: https://www.andrewheiss.com
+  email: aheiss@gsu.edu
+date: "2026-02-17"
+date-format: "MMMM D, YYYY"
+language: 
+  title-block-published: Workshop date
+toc: true
+---
+
+## Overview
+
+Have you ever created files named "`01_clean.R`", "`02_analysis.R`", and "`03_plots.R`" and forgotten to run one of the files in the right order? Have you had to manually rerun an entire analysis after a single input changes—even if that input only affected one plot? Data analysis involves many moving parts. Traditional script-based approaches often lead to fragile pipelines, wasted computation, and reproducibility nightmares. Fortunately, the [{targets} package](https://books.ropensci.org/targets/) for R offers a powerful solution by implementing a Make-like pipeline toolkit that transforms chaotic scripts into streamlined, automated workflows that intelligently skip unnecessary steps.
+
+
+## Materials
+
+All the materials we'll use today are in [a self-contained RStudio project](https://github.com/andrewheiss/2024-11-13_udem-beyond-ols) that you can download to your computer. It is a `.zip` file, so make sure you extract/unzip it after downloading it (especially if [you're using Windows!](https://evalsp24.classes.andrewheiss.com/resource/unzipping.html))
+
+<p class="text-center"><a class="btn btn-info btn-lg" target="_blank" href="https://github.com/andrewheiss/2024-11-13_udem-beyond-ols/archive/refs/heads/main.zip">{{< fa file-zipper >}} &ensp;RStudio project</a></p>
+
+Alternatively, you can open this project in your browser without needing to install or download anything on your computer. HOWEVER, the Posit server isn't powerful enough to run the Bayesian models—it will crash unless you increase the amount of RAM or CPUs on the server. Open this [Posit.cloud](https://posit.cloud) project (you'll need to create a free account really quick):
+
+<p class="text-center"><a class="btn btn-info btn-lg" target="_blank" href="https://posit.cloud/content/9240648">{{< fa brands r-project >}} &ensp;Posit.cloud project</a></p>
+
+
+## Packages
+
+You'll need all these packages on your computer if you're following along:
+
+```r
+install.packages(
+  c("tidyverse", "marginaleffects", "brms", "tidybayes", "ggdist", "tinytable", 
+    "patchwork", "scales", "ggridges", "ragg", "knitr", "rmarkdown", "glue", 
+    "here", "extraDistr", "betareg", "parameters", "broom", "distributional", 
+    "palmerpenguins", "bayesrules", "countrycode", "WDI"
+  )
+)
+```
+
+
+## Slides
+
+::: {.text-center}
+[{{< fa arrow-up-right-from-square >}}&ensp;Open slides in new window](https://www.andrewheiss.com/research/){.btn .btn-lg .btn-success target="_blank"}
+:::
+
+```{=html}
+<div class="ratio ratio-16x9">
+<iframe class="slide-deck" src="slides/" style="border: 1px solid #343a40;"></iframe>
+</div>
+```
+
+
+## Other examples and resources
+
+### Official documentation
+
+- [{targets} book](https://books.ropensci.org/targets/){target="_blank"}
+- [{targets} site](https://docs.ropensci.org/targets/){target="_blank"}
+- [{tarchetypes} site](https://docs.ropensci.org/tarchetypes/){target="_blank"} (extra functions for rendering to Quarto or R Markdown, using a URL as a storage format, conditionally controlling target execution, etc.)
+
+### Pipelines for research projects
+
+- "Navigating Hostility: The Effect of Nonprofit Transparency and Accountability on Donor Preferences in the Face of Shrinking Civic Space"<br>[Analysis notebook + preprint {{< fa arrow-up-right-from-square >}}](https://stats.andrewheiss.com/silent-skywalk/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/silent-skywalk/blob/main/_targets.R){target="_blank"}
+
+- "Derogations, Democratic Backsliding, and International Human Rights During the COVID-19 Pandemic"<br>[Analysis notebook + preprint {{< fa arrow-up-right-from-square >}}](https://stats.andrewheiss.com/lemon-lucifer/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/lemon-lucifer/blob/main/_targets.R){target="_blank"}
+
+- "Pandemic Pass? Treaty Derogations and Human Rights Practices During COVID-19"<br>[Analysis notebook + preprint {{< fa arrow-up-right-from-square >}}](https://stats.andrewheiss.com/mountainous-mackerel/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/mountainous-mackerel/blob/main/_targets.R){target="_blank"}
+
+### Pipelines for course websites
+
+- Data Visualization with R<br>(*pipeline builds data, zips project folders, converts HTML slides to PDF, builds Quarto website, and uploads everything to a server*)<br>[Website {{< fa arrow-up-right-from-square >}}](https://datavizsp26.classes.andrewheiss.com/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/datavizsp26.classes.andrewheiss.com/blob/main/_targets.R){target="_blank"}
+
+- Program Evaluation for Public Service<br>(*pipeline builds data, zips project folders, converts HTML slides to PDF, builds Quarto website, and uploads everything to a server*)<br>[Website {{< fa arrow-up-right-from-square >}}](https://evalsp26.classes.andrewheiss.com/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/evalsp26.classes.andrewheiss.com/blob/main/_targets.R){target="_blank"}
+
+- Governance Around the World<br>(*pipeline builds Quarto website and uploads everything to a server*)<br>[Website {{< fa arrow-up-right-from-square >}}](https://governancef25.classes.andrewheiss.com/){target="_blank"} and [`_targets.R` {{< fa arrow-up-right-from-square >}}](https://github.com/andrewheiss/governancef25.classes.andrewheiss.com/blob/main/_targets.R){target="_blank"}
+
+### Pipelines for Idaho's 2024 election
+
+- [DIY Election Desk](https://andrewheiss.github.io/election-desk/){target="_blank"} (example repository with two independent pipelines: one for processing data and one for building a site)
+- ["Election Night Reporting Using R & Quarto" posit::conf(2025) talk](https://andrewheiss.github.io/election-desk/posit-conf-2025.html){target="_blank"}

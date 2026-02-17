@@ -1,0 +1,466 @@
+---
+title: "Building reproducible<br>workflows with {targets}"
+format:
+  revealjs:
+    theme: [simple, ../css/slide-styles.scss, brand]
+    width: 1600
+    height: 900
+    auto-stretch: false
+
+    preview-links: true
+    code-block-height: 730px
+    controls: auto
+
+    title-slide-attributes: 
+      data-background-image: ../img/background-hex-shapes.svg
+      data-background-opacity: "0.5"
+      data-background-gradient: "linear-gradient(30deg, {{< brand color navy >}}, {{< brand color teal >}})"
+    include-in-header: 
+      - text: |
+          <script>
+            if (window.location.search.includes('decktape=true')) {
+              document.documentElement.classList.add('decktape-export');
+            }
+          </script>
+---
+
+# Welcome! {background-color='{{< brand color orange >}}' background-image='../img/background-hex-shapes.svg' background-opacity='0.5'}
+
+## Plan for today
+
+::: {.incremental style="font-size: 1.5em;"}
+
+- Why care about workflows?
+
+- How {targets} works
+
+- Hand-on {targets} practice!
+
+:::
+
+
+## About me
+
+::::: {.columns}
+:::: {.column width="50%"}
+**Andrew Heiss**
+
+::: {style="font-size: 80%"}
+[{{< fa link >}}&ensp;andrewheiss.com](https://www.andrewheiss.com/)&emsp;[{{< fa brands bluesky >}}&ensp;\@andrew.heiss.phd](https://www.linkedin.com/in/andrewheiss/)
+
+[{{< fa brands github >}}&ensp;\@andrewheiss](https://github.com/andrewheiss)&emsp;[{{< fa brands linkedin >}}&ensp; andrewheiss](https://www.linkedin.com/in/andrewheiss/)
+:::
+
+- Assistant professor of public policy, Georgia State University
+
+- Data visualization, statistics, and causal inference
+
+::::
+
+:::: {.column width="50%"}
+![](img/andrew-heiss-2022.jpg){fig-alt="Andrew's headshot" fig-align="center" width=350px}
+
+::::
+:::::
+
+## Follow along
+
+All the materials for today are accessible at
+
+::: {style="font-size: 1.8em;"}
+[andhs.co/northwestern](https://andhs.co/northwestern)
+:::
+
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+library(qrcode)
+
+code <- qr_code("https://andhs.co/northwestern")
+
+generate_svg(code, filename = here::here("img/qr_code.svg"), show = FALSE)
+plot(code, col = c("#FFFFFF", "#111111"))
+```
+
+# Why care about workflows? {background-color='{{< brand color teal >}}' background-image='../img/background-hex-shapes.svg' background-opacity='0.5'}
+
+##
+
+::: {.r-fit-text}
+**Statistical research<br>is a complicated,<br>messy process!**
+:::
+
+## Itty bitty pieces
+
+::::: {.columns}
+
+:::: {.column .fragment style="font-size: 0.9em; width: 40%"}
+- Data
+- Statistical results
+- Code
+- Fieldwork
+- Interviews
+- Analysis
+- Figures
+- Images
+- Tables
+- Citations
+- **Your actual words**
+::::
+
+:::: {.column style="font-size: 1.6em; width: 60%"}
+
+::: {.fragment}
+**Each of these come<br>from different places!**
+
+\ 
+
+:::
+
+::: {.fragment}
+
+[**Each of these can be<br>in a different state!**]{style="color: #b80422;"}
+:::
+
+::::
+
+:::::
+
+## Approaches for handling all the itty bitty pieces
+
+::: {.fragment}
+
+### The Office model {style="color: #ee9b43;"}
+
+**Put everything in one document**
+
+- Everything lives in one `.docx` file
+
+:::
+
+::: {.fragment}
+
+### The Engineering model {style="color: #b80422;"}
+
+**Embrace the bittiness and compile it all at the end**
+
+- Everything lives separately and is combined in the end
+- Quarto!
+
+:::
+
+## Approaches for handling different states
+
+::: {.fragment}
+
+### YOLO workflow {style="color: #ee9b43;"}
+
+Mentally **remember** to run all the scripts when data changes, replace old figures/tables/values with new values, and manually run everything in the right order.
+
+:::
+
+::: {.fragment}
+
+### Procedural workflow {style="color: #19798b;"}
+
+Carefully document the **precise order** that your scripts run, maybe even with a master script that runs everything for you. Run the master script when data changes and rebuild the whole thing every time. Maybe get fancy with things like Quarto caching/freezing.
+
+:::
+
+::: {.fragment}
+
+### Functional workflow {style="color: #b80422;"}
+
+Divide workflow into separate objects and **let software** keep track of which things are out of date and **orchestrate** which things need to re-run. Run one command to rebuild the whole project, **skipping dependencies** that don't need to build again.
+
+:::
+
+## My own workflow journey
+
+::: {.fragment}
+
+### YOLO workflow {style="color: #ee9b43;"}
+
+`01_clean.R` + `02_analysis.R` + `03_plots.R`
+
+:::
+
+::: {.fragment}
+
+### Procedural workflow {style="color: #19798b;"}
+
+R Markdown/Quarto websites ([example](https://stats.andrewheiss.com/ngo-crackdowns-philanthropy/))
+
+`01_clean.Rmd` + `02_analysis.Rmd` + `03_plots.Rmd` + caching
+
+:::
+
+::: {.fragment}
+
+### Functional workflow {style="color: #b80422;"}
+
+Makefiles ([example](https://github.com/andrewheiss/ngo-crackdowns-philanthropy/blob/master/Makefile)) → **{targets} pipelines** ([example](https://github.com/andrewheiss/silent-skywalk/blob/main/_targets.R))
+
+:::
+
+# How {targets} works {background-color='{{< brand color coral >}}' background-image='../img/background-hex-shapes.svg' background-opacity='0.5'}
+
+## {targets} documentation
+
+:::: {.columns}
+
+::: {.column width="80%"}
+![](img/targets-documentation.png)
+:::
+
+::: {.column width="20%"}
+There's a whole [Quarto book with detailed documentation](https://books.ropensci.org/targets/)
+:::
+
+::::
+
+
+
+
+
+
+
+## General workflow
+
+::: {.incremental style="font-size: 1.3em;"}
+
+- Create functions that make things (or "targets"; distinct objects that you can do stuff with)
+- Build these targets with `tar_make()`
+  - {targets} keeps track of upstream and downstream dependencies and skips targets if nothing has changed
+- Load a target into an R session with `tar_load(target_name)` or `blah <- tar_read(target_name)`
+
+:::
+
+## Anatomy of `_targets.R`
+
+````{.r filename="_targets.R" code-line-numbers="1|3-7|9-12|14-25"}
+library(targets)
+
+# General pipeline settings
+# ---------------------------
+tar_option_set(
+  packages = c("tibble") # Packages that your targets need for their tasks.
+)
+
+# Load functions
+# ----------------
+# Run the R scripts in the R/ folder with your custom functions:
+tar_source()
+
+# Actual pipeline
+# -----------------
+list(
+  tar_target(
+    name = data,  # Conceptually the same as saying `data <- tibble(...)`
+    command = tibble(x = rnorm(100), y = rnorm(100))
+  ),
+  tar_target(
+    name = model,  # Concetpually the same as saying `model <- coefficients(...)`
+    command = coefficients(lm(y ~ x, data = data))
+  )
+)
+````
+
+## Viewing the pipeline
+
+:::: {.columns}
+
+::: {.column .fragment}
+
+```{.r}
+tar_glimpse()
+```
+
+![](img/tar_glimpse.png)
+
+:::
+
+::: {.column .fragment}
+
+```{.r}
+tar_visnetwork()
+```
+
+![](img/tar_visnetwork.png)
+
+:::
+
+::::
+
+## Building the pipeline
+
+::::: {.columns}
+
+:::: {.column}
+
+::: {.fragment}
+Build the whole pipeline:
+
+```{.r}
+tar_make()
+#> + data dispatched                           
+#> ✔ data completed [5ms, 1.75 kB]
+#> + model dispatched
+#> ✔ model completed [2ms, 113 B]
+#> ✔ ended pipeline [132ms, 2 completed, 0 skipped]
+```
+:::
+
+::: {.fragment}
+Build it again, everything gets skipped!
+
+```{.r}
+tar_make()
+#> ✔ skipped pipeline [61ms, 2 skipped]
+```
+:::
+
+::: {.fragment}
+Change something in `model`, then re-run:
+
+```{.r}
+tar_make()
+#> + model dispatched                          
+#> ✔ model completed [1ms, 108 B]
+#> ✔ ended pipeline [88ms, 1 completed, 1 skipped]
+```
+:::
+
+::::
+
+:::: {.column}
+
+::: {.fragment}
+Build specific targets:
+
+```{.r}
+tar_make(model)
+```
+:::
+
+::: {.fragment}
+Build multiple targets:
+
+```{.r}
+tar_make(c(data, model))
+```
+:::
+
+::: {.fragment}
+Use tidyselect selectors:
+
+```{.r}
+tar_make(starts_with("model_"))
+tar_make(contains("tbl"))
+```
+:::
+
+::::
+
+:::::
+
+## Using targets
+
+::: {.fragment}
+In a different R script or Quarto file:
+
+```{.r}
+library(targets)
+
+# This loads the target as its name
+tar_load(data)
+
+# Do stuff with it
+plot(data)
+```
+:::
+
+::: {.fragment}
+If you don't want to use the target's actual name, use `tar_read()`:
+
+```{.r}
+library(targets)
+
+# This lets you assign the target to a new object
+my_neat_data <- tar_read(data)
+
+# Do stuff with it
+plot(my_neat_data)
+```
+:::
+
+## Behind the scenes
+
+::: {.fragment}
+
+{targets} stores each target as an extension-less .rds file in `_targets/objects`:
+
+![](img/object-rds.png)
+
+:::
+
+::: {.fragment}
+
+You can access a full data frame of all the target metadata if you really want
+
+```{.r}
+tar_meta() |> View()
+```
+
+![](img/tar_meta.png)
+:::
+
+## Neat advanced stuff
+
+::: {.incremental style="font-size: 1.5em;"}
+- Automatic parallel processing
+- Automatic remote HPC processing
+- Store targets in the cloud
+- Programmatically generate targets
+:::
+
+## {targets} and elections
+
+:::: {.columns}
+
+::: {.column width="65%"}
+![](img/posit-conf-title.png)
+:::
+
+::: {.column width="35%"}
+### 2024 Idaho elections
+
+- [Results dashboard](https://archive.voteidaho.gov/results/2024/general/)
+- [Example pipeline](https://andrewheiss.github.io/election-desk/)
+- [posit::conf(2025) talk](https://andrewheiss.github.io/election-desk/posit-conf-2025.html)
+:::
+
+::::
+
+
+## {background-image="img/idaho-pipeline1.png" background-size="contain"}
+
+## {background-image="img/idaho-pipeline2.png" background-size="contain"}
+
+# That's all really abstract—<br>let's practice {targets} together! {background-color='{{< brand color crimson >}}' background-image='../img/background-hex-shapes.svg' background-opacity='0.5'}
+
+##
+
+::: {style="font-size: 1.8em; text-align: center;"}
+[andhs.co/northwestern](#)
+:::
+
+```{r}
+#| echo: false
+#| fig-width: 6
+#| fig-height: 6
+#| fig-align: "center"
+
+plot(code, col = c("#FFFFFF", "#111111"))
+```

@@ -1,0 +1,40 @@
+project:
+  type: website
+  preview: 
+    port: 3333
+
+  render:
+    # Render all .qmd files
+    - "**/*.qmd"
+
+date-format: long
+
+website:
+  title: "Workflows with {targets}"
+  site-url: "https://andrewheiss.github.io/quarto-websites_2025-10/"
+
+  repo-url: "https://github.com/andrewheiss/quarto-websites_2025-10"
+  repo-actions: [source, issue]
+
+  draft-mode: visible
+
+  navbar:
+    background: primary
+    right:
+      - icon: github
+        href: https://github.com/andrewheiss/quarto-websites_2025-10
+
+  page-footer:
+    left: |
+      {{< fa brands creative-commons >}} 2026 by [Andrew Heiss](https://www.andrewheiss.com) | [CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/) {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}}
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)
+
+format:
+  html:
+    highlight-style: github
+    theme:
+      - zephyr
+      - css/site-styles.scss
+      - brand
+    toc: true
