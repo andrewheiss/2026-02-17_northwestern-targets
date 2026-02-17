@@ -6,6 +6,12 @@ project:
   render:
     # Render all .qmd files
     - "**/*.qmd"
+    - "!materials/"
+  
+  resources:
+    - materials/targets-penguins.zip 
+    - materials/08-comparisons-original.zip 
+    - materials/08-comparisons-targets.zip
 
 date-format: long
 

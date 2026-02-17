@@ -28,14 +28,11 @@ Have you ever created files named "`01_clean.R`", "`02_analysis.R`", and "`03_pl
 
 ## Materials
 
-All the materials we'll use today are in [a self-contained RStudio project](https://github.com/andrewheiss/2024-11-13_udem-beyond-ols) that you can download to your computer. It is a `.zip` file, so make sure you extract/unzip it after downloading it (especially if [you're using Windows!](https://evalsp24.classes.andrewheiss.com/resource/unzipping.html))
+All the materials we'll use today are three self-contained RStudio projects:
 
-<p class="text-center"><a class="btn btn-info btn-lg" target="_blank" href="https://github.com/andrewheiss/2024-11-13_udem-beyond-ols/archive/refs/heads/main.zip">{{< fa file-zipper >}} &ensp;RStudio project</a></p>
-
-Alternatively, you can open this project in your browser without needing to install or download anything on your computer. HOWEVER, the Posit server isn't powerful enough to run the Bayesian models—it will crash unless you increase the amount of RAM or CPUs on the server. Open this [Posit.cloud](https://posit.cloud) project (you'll need to create a free account really quick):
-
-<p class="text-center"><a class="btn btn-info btn-lg" target="_blank" href="https://posit.cloud/content/9240648">{{< fa brands r-project >}} &ensp;Posit.cloud project</a></p>
-
+::: {.text-center}
+[{{< fa file-zipper >}}&ensp;targets-penguins.zip](materials/targets-penguins.zip){.btn .btn-success target="_blank"} &ensp; [{{< fa file-zipper >}}&ensp;08-comparisons-original.zip](materials/08-comparisons-original.zip){.btn .btn-success target="_blank"} &ensp; [{{< fa file-zipper >}}&ensp;08-comparisons-targets.zip](materials/08-comparisons-targets.zip){.btn .btn-success target="_blank"}
+:::
 
 ## Packages
 
@@ -43,10 +40,9 @@ You'll need all these packages on your computer if you're following along:
 
 ```r
 install.packages(
-  c("tidyverse", "marginaleffects", "brms", "tidybayes", "ggdist", "tinytable", 
-    "patchwork", "scales", "ggridges", "ragg", "knitr", "rmarkdown", "glue", 
-    "here", "extraDistr", "betareg", "parameters", "broom", "distributional", 
-    "palmerpenguins", "bayesrules", "countrycode", "WDI"
+  c("tidyverse", "ggrepel", "sf", "tigris", "dataverse", "jsonlite", 
+    "targets", "tarchetypes", "tidybayes", "brms",
+    "marginaleffects", "modelsummary", "parameters", "patchwork"
   )
 )
 ```

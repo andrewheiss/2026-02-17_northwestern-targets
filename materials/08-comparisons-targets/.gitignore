@@ -9,3 +9,5 @@
 *.docx
 
 /.quarto/
+
+/_targets/
