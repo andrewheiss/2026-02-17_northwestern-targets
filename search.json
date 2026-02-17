@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "",
+    "text": "Have you ever created files named “01_clean.R”, “02_analysis.R”, and “03_plots.R” and forgotten to run one of the files in the right order? Have you had to manually rerun an entire analysis after a single input changes—even if that input only affected one plot? Data analysis involves many moving parts. Traditional script-based approaches often lead to fragile pipelines, wasted computation, and reproducibility nightmares. Fortunately, the {targets} package for R offers a powerful solution by implementing a Make-like pipeline toolkit that transforms chaotic scripts into streamlined, automated workflows that intelligently skip unnecessary steps."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "",
+    "text": "Have you ever created files named “01_clean.R”, “02_analysis.R”, and “03_plots.R” and forgotten to run one of the files in the right order? Have you had to manually rerun an entire analysis after a single input changes—even if that input only affected one plot? Data analysis involves many moving parts. Traditional script-based approaches often lead to fragile pipelines, wasted computation, and reproducibility nightmares. Fortunately, the {targets} package for R offers a powerful solution by implementing a Make-like pipeline toolkit that transforms chaotic scripts into streamlined, automated workflows that intelligently skip unnecessary steps."
+  },
+  {
+    "objectID": "index.html#materials",
+    "href": "index.html#materials",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "Materials",
+    "text": "Materials\nAll the materials we’ll use today are in a self-contained RStudio project that you can download to your computer. It is a .zip file, so make sure you extract/unzip it after downloading it (especially if you’re using Windows!)\n\n  RStudio project\n\nAlternatively, you can open this project in your browser without needing to install or download anything on your computer. HOWEVER, the Posit server isn’t powerful enough to run the Bayesian models—it will crash unless you increase the amount of RAM or CPUs on the server. Open this Posit.cloud project (you’ll need to create a free account really quick):\n\n  Posit.cloud project"
+  },
+  {
+    "objectID": "index.html#packages",
+    "href": "index.html#packages",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "Packages",
+    "text": "Packages\nYou’ll need all these packages on your computer if you’re following along:\ninstall.packages(\n  c(\"tidyverse\", \"marginaleffects\", \"brms\", \"tidybayes\", \"ggdist\", \"tinytable\", \n    \"patchwork\", \"scales\", \"ggridges\", \"ragg\", \"knitr\", \"rmarkdown\", \"glue\", \n    \"here\", \"extraDistr\", \"betareg\", \"parameters\", \"broom\", \"distributional\", \n    \"palmerpenguins\", \"bayesrules\", \"countrycode\", \"WDI\"\n  )\n)"
+  },
+  {
+    "objectID": "index.html#slides",
+    "href": "index.html#slides",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "Slides",
+    "text": "Slides\n\n Open slides in new window"
+  },
+  {
+    "objectID": "index.html#other-examples-and-resources",
+    "href": "index.html#other-examples-and-resources",
+    "title": "Building reproducible workflows with {targets}",
+    "section": "Other examples and resources",
+    "text": "Other examples and resources\n\nOfficial documentation\n\n{targets} book\n{targets} site\n{tarchetypes} site (extra functions for rendering to Quarto or R Markdown, using a URL as a storage format, conditionally controlling target execution, etc.)\n\n\n\nPipelines for research projects\n\n“Navigating Hostility: The Effect of Nonprofit Transparency and Accountability on Donor Preferences in the Face of Shrinking Civic Space”Analysis notebook + preprint  and _targets.R \n“Derogations, Democratic Backsliding, and International Human Rights During the COVID-19 Pandemic”Analysis notebook + preprint  and _targets.R \n“Pandemic Pass? Treaty Derogations and Human Rights Practices During COVID-19”Analysis notebook + preprint  and _targets.R \n\n\n\nPipelines for course websites\n\nData Visualization with R(pipeline builds data, zips project folders, converts HTML slides to PDF, builds Quarto website, and uploads everything to a server)Website  and _targets.R \nProgram Evaluation for Public Service(pipeline builds data, zips project folders, converts HTML slides to PDF, builds Quarto website, and uploads everything to a server)Website  and _targets.R \nGovernance Around the World(pipeline builds Quarto website and uploads everything to a server)Website  and _targets.R \n\n\n\nPipelines for Idaho’s 2024 election\n\nDIY Election Desk (example repository with two independent pipelines: one for processing data and one for building a site)\n“Election Night Reporting Using R & Quarto” posit::conf(2025) talk"
+  },
+  {
+    "objectID": "slides/index.html#plan-for-today",
+    "href": "slides/index.html#plan-for-today",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Plan for today",
+    "text": "Plan for today\n\n\nWhy care about workflows?\nHow {targets} works\nHand-on {targets} practice!"
+  },
+  {
+    "objectID": "slides/index.html#about-me",
+    "href": "slides/index.html#about-me",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "About me",
+    "text": "About me\n\n\nAndrew Heiss\n\n andrewheiss.com  @andrew.heiss.phd\n @andrewheiss   andrewheiss\n\n\nAssistant professor of public policy, Georgia State University\nData visualization, statistics, and causal inference"
+  },
+  {
+    "objectID": "slides/index.html#follow-along",
+    "href": "slides/index.html#follow-along",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Follow along",
+    "text": "Follow along\nAll the materials for today are accessible at\n\nandhs.co/northwestern"
+  },
+  {
+    "objectID": "slides/index.html#section",
+    "href": "slides/index.html#section",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "",
+    "text": "Statistical researchis a complicated,messy process!"
+  },
+  {
+    "objectID": "slides/index.html#itty-bitty-pieces",
+    "href": "slides/index.html#itty-bitty-pieces",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Itty bitty pieces",
+    "text": "Itty bitty pieces\n\n\n\nData\nStatistical results\nCode\nFieldwork\nInterviews\nAnalysis\nFigures\nImages\nTables\nCitations\nYour actual words\n\n\n\nEach of these comefrom different places!\n \n\n\nEach of these can bein a different state!"
+  },
+  {
+    "objectID": "slides/index.html#approaches-for-handling-all-the-itty-bitty-pieces",
+    "href": "slides/index.html#approaches-for-handling-all-the-itty-bitty-pieces",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Approaches for handling all the itty bitty pieces",
+    "text": "Approaches for handling all the itty bitty pieces\n\nThe Office model\nPut everything in one document\n\nEverything lives in one .docx file\n\n\n\nThe Engineering model\nEmbrace the bittiness and compile it all at the end\n\nEverything lives separately and is combined in the end\nQuarto!"
+  },
+  {
+    "objectID": "slides/index.html#approaches-for-handling-different-states",
+    "href": "slides/index.html#approaches-for-handling-different-states",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Approaches for handling different states",
+    "text": "Approaches for handling different states\n\nYOLO workflow\nMentally remember to run all the scripts when data changes, replace old figures/tables/values with new values, and manually run everything in the right order.\n\n\nProcedural workflow\nCarefully document the precise order that your scripts run, maybe even with a master script that runs everything for you. Run the master script when data changes and rebuild the whole thing every time. Maybe get fancy with things like Quarto caching/freezing.\n\n\nFunctional workflow\nDivide workflow into separate objects and let software keep track of which things are out of date and orchestrate which things need to re-run. Run one command to rebuild the whole project, skipping dependencies that don’t need to build again."
+  },
+  {
+    "objectID": "slides/index.html#my-own-workflow-journey",
+    "href": "slides/index.html#my-own-workflow-journey",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "My own workflow journey",
+    "text": "My own workflow journey\n\nYOLO workflow\n01_clean.R + 02_analysis.R + 03_plots.R\n\n\nProcedural workflow\nR Markdown/Quarto websites (example)\n01_clean.Rmd + 02_analysis.Rmd + 03_plots.Rmd + caching\n\n\nFunctional workflow\nMakefiles (example) → {targets} pipelines (example)"
+  },
+  {
+    "objectID": "slides/index.html#targets-documentation",
+    "href": "slides/index.html#targets-documentation",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "{targets} documentation",
+    "text": "{targets} documentation\n\n\n\n\nThere’s a whole Quarto book with detailed documentation"
+  },
+  {
+    "objectID": "slides/index.html#general-workflow",
+    "href": "slides/index.html#general-workflow",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "General workflow",
+    "text": "General workflow\n\n\nCreate functions that make things (or “targets”; distinct objects that you can do stuff with)\nBuild these targets with tar_make()\n\n{targets} keeps track of upstream and downstream dependencies and skips targets if nothing has changed\n\nLoad a target into an R session with tar_load(target_name) or blah &lt;- tar_read(target_name)"
+  },
+  {
+    "objectID": "slides/index.html#anatomy-of-_targets.r",
+    "href": "slides/index.html#anatomy-of-_targets.r",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Anatomy of _targets.R",
+    "text": "Anatomy of _targets.R\n\n\n_targets.R\n\nlibrary(targets)\n\n# General pipeline settings\n# ---------------------------\ntar_option_set(\n  packages = c(\"tibble\") # Packages that your targets need for their tasks.\n)\n\n# Load functions\n# ----------------\n# Run the R scripts in the R/ folder with your custom functions:\ntar_source()\n\n# Actual pipeline\n# -----------------\nlist(\n  tar_target(\n    name = data,  # Conceptually the same as saying `data &lt;- tibble(...)`\n    command = tibble(x = rnorm(100), y = rnorm(100))\n  ),\n  tar_target(\n    name = model,  # Concetpually the same as saying `model &lt;- coefficients(...)`\n    command = coefficients(lm(y ~ x, data = data))\n  )\n)"
+  },
+  {
+    "objectID": "slides/index.html#viewing-the-pipeline",
+    "href": "slides/index.html#viewing-the-pipeline",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Viewing the pipeline",
+    "text": "Viewing the pipeline\n\n\ntar_glimpse()\n\n\ntar_visnetwork()"
+  },
+  {
+    "objectID": "slides/index.html#building-the-pipeline",
+    "href": "slides/index.html#building-the-pipeline",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Building the pipeline",
+    "text": "Building the pipeline\n\n\n\nBuild the whole pipeline:\ntar_make()\n#&gt; + data dispatched                           \n#&gt; ✔ data completed [5ms, 1.75 kB]\n#&gt; + model dispatched\n#&gt; ✔ model completed [2ms, 113 B]\n#&gt; ✔ ended pipeline [132ms, 2 completed, 0 skipped]\n\n\nBuild it again, everything gets skipped!\ntar_make()\n#&gt; ✔ skipped pipeline [61ms, 2 skipped]\n\n\nChange something in model, then re-run:\ntar_make()\n#&gt; + model dispatched                          \n#&gt; ✔ model completed [1ms, 108 B]\n#&gt; ✔ ended pipeline [88ms, 1 completed, 1 skipped]\n\n\n\nBuild specific targets:\ntar_make(model)\n\n\nBuild multiple targets:\ntar_make(c(data, model))\n\n\nUse tidyselect selectors:\ntar_make(starts_with(\"model_\"))\ntar_make(contains(\"tbl\"))"
+  },
+  {
+    "objectID": "slides/index.html#using-targets",
+    "href": "slides/index.html#using-targets",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Using targets",
+    "text": "Using targets\n\nIn a different R script or Quarto file:\nlibrary(targets)\n\n# This loads the target as its name\ntar_load(data)\n\n# Do stuff with it\nplot(data)\n\n\nIf you don’t want to use the target’s actual name, use tar_read():\nlibrary(targets)\n\n# This lets you assign the target to a new object\nmy_neat_data &lt;- tar_read(data)\n\n# Do stuff with it\nplot(my_neat_data)"
+  },
+  {
+    "objectID": "slides/index.html#behind-the-scenes",
+    "href": "slides/index.html#behind-the-scenes",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Behind the scenes",
+    "text": "Behind the scenes\n\n{targets} stores each target as an extension-less .rds file in _targets/objects:\n\n\n\nYou can access a full data frame of all the target metadata if you really want\ntar_meta() |&gt; View()"
+  },
+  {
+    "objectID": "slides/index.html#neat-advanced-stuff",
+    "href": "slides/index.html#neat-advanced-stuff",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "Neat advanced stuff",
+    "text": "Neat advanced stuff\n\n\nAutomatic parallel processing\nAutomatic remote HPC processing\nStore targets in the cloud\nProgrammatically generate targets"
+  },
+  {
+    "objectID": "slides/index.html#targets-and-elections",
+    "href": "slides/index.html#targets-and-elections",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "{targets} and elections",
+    "text": "{targets} and elections\n\n\n\n\n2024 Idaho elections\n\nResults dashboard\nExample pipeline\nposit::conf(2025) talk"
+  },
+  {
+    "objectID": "slides/index.html#section-3",
+    "href": "slides/index.html#section-3",
+    "title": "Building reproducibleworkflows with {targets}",
+    "section": "",
+    "text": "andhs.co/northwestern"
+  }
+]
