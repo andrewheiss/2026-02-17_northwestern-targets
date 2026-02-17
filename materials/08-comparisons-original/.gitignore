@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+*_files/*
+*.html
+*.pdf
+*.docx
+
+/.quarto/
+
+/_targets/

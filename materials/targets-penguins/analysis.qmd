@@ -1,0 +1,96 @@
+---
+title: "Analysis"
+format:
+  html:
+    toc: true
+  typst:
+    toc: false
+---
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(tidybayes)
+library(targets)
+library(marginaleffects)
+library(modelsummary)
+library(parameters)
+library(patchwork)
+
+tar_load(penguins)
+tar_load(c(model1_bayes, model2_bayes))
+```
+
+# Look at data
+
+@fig-scatterplot shows a standard scatterplot
+
+```{r}
+#| label: fig-scatterplot
+#| fig-cap: "Bill length and body mass and species"
+ggplot(penguins, aes(x = bill_len, y = body_mass, color = species)) +
+  geom_point()
+```
+
+# Look at models
+
+Here is model 1
+
+```{r}
+model_parameters(model1_bayes, verbose = FALSE)
+```
+
+@tbl-summary shows both at the same time
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: "Both models at the same time"
+modelsummary(
+  list(model1_bayes, model2_bayes),
+  statistic = "[{conf.low}, {conf.high}]",
+  ci_method = "hdi",
+  metrics = c("R2"),
+  fmt = 1
+)
+```
+
+Check out @fig-preds for predicted values
+
+```{r}
+#| label: fig-preds
+#| fig-cap: "Predicted weight across bill length"
+#| warning: false
+#| message: false
+
+p1 <- model1_bayes |> 
+  plot_predictions(condition = c("bill_len")) +
+  coord_cartesian(ylim = c(2000, 6500))
+
+p2 <- model2_bayes |> 
+  plot_predictions(condition = c("bill_len", "species")) +
+  coord_cartesian(ylim = c(2000, 6500))
+
+p1 | p2
+```
+
+And look at the `bill_len` coefficient in both of the models in @fig-coef.
+
+```{r}
+#| label: fig-coef
+#| fig-cap: "Coefficient for bill length across the two models"
+bill_len_model_1 <- model1_bayes |> 
+  gather_draws(b_bill_len) |>
+  mutate(model = "Model 1")
+
+bill_len_model_2 <- model2_bayes |> 
+  gather_draws(b_bill_len) |>
+  mutate(model = "Model 2")
+
+bind_rows(bill_len_model_1, bill_len_model_2) |> 
+  ggplot(aes(x = .value, y = model, fill = model)) + 
+  ggdist::stat_halfeye() +
+  guides(fill = "none") +
+  labs(x = "bill_len")
+```
