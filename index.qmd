@@ -51,7 +51,7 @@ install.packages(
 ## Slides
 
 ::: {.text-center}
-[{{< fa arrow-up-right-from-square >}}&ensp;Open slides in new window](https://www.andrewheiss.com/research/){.btn .btn-lg .btn-success target="_blank"}
+[{{< fa arrow-up-right-from-square >}}&ensp;Open slides in new window](slides/){.btn .btn-lg .btn-success target="_blank"}
 :::
 
 ```{=html}
