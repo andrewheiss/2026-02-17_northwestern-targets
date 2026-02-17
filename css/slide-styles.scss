@@ -1,0 +1,50 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+:root {
+  --r-heading2-size: 1.8em;
+  --r-heading3-size: 1.3em;
+}
+
+.decktape-export * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+#title-slide,
+.reveal .slides section.quarto-title-block {
+  text-align: left;
+
+  h1, h2, p {
+    text-align: left;
+  }
+
+  .title {
+    color: #ffffff;
+    font-size: 3.4em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+
+    @media print {
+      text-shadow: none;
+    }
+  }
+}
+
+.slide h2 {
+    margin-bottom: 1em;
+}
+
+.slide h3 {
+    margin-top: 0.8em;
+}
+
+kbd {
+    font-size: 0.8em;
+}
+
+kbd.kbd.mac {
+    /* When rendering keyboard icons on macOS, we revert the font family to the 
+    system font to ensure the icons render with the same X-height as upper case letters. */
+    font-family: inherit;
+}
